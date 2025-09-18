@@ -1,16 +1,18 @@
 using UnityEngine;
+using Zenject;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController 
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+  private readonly PlayerView _playerView;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  [Inject]
+  public PlayerController(PlayerView playerView)
+  {
+    _playerView = playerView;
+  }
+
+  public void Jump()
+  {
+    _playerView.Jump();
+  }
 }

@@ -2,15 +2,6 @@ using UnityEngine;
 
 public class LayerData : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  [field: SerializeField] public LayerMask GroundLayer {get; private set;}
+  [field: SerializeField] public LayerMask CoinLayer {get; private set;}
 }

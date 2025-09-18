@@ -1,16 +1,22 @@
+using System;
 using UnityEngine;
+using Zenject;
 
 public class InputListener : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+  private PlayerController _playerController;
 
-    // Update is called once per frame
-    void Update()
+  [Inject]
+  public void Construct(PlayerController playerController)
+  {
+    _playerController = playerController;
+  }
+
+  private void Update()
+  {
+    if(Input.GetKeyDown(KeyCode.Space))
     {
-        
+      _playerController.Jump();
     }
+  }
 }
