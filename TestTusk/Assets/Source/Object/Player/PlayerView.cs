@@ -10,7 +10,6 @@ public class PlayerView : MonoBehaviour
     private LayerData _layerData;
     private ISound _sound;
     private FloatData _floatData;
-    private ScoreView _scoreView;
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -34,15 +33,6 @@ public class PlayerView : MonoBehaviour
         {
             _sound.EndGameSound();
             SceneManager.LoadScene("Game");
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (LayerMaskCheck.ContainsLayer(_layerData.CoinLayer, other.gameObject.layer))
-        {
-            _sound.PlayCoinSound();
-            _scoreView.AddScore();
         }
     }
 }

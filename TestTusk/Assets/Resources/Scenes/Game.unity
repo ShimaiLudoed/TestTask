@@ -956,6 +956,9 @@ MonoBehaviour:
   <CoinLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
+  <WallLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1137303389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,7 +1011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a573a54ed410c46baaa6316502eae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GameSpeed>k__BackingField: 0
+  <GameSpeed>k__BackingField: 1
   <Force>k__BackingField: 5
 --- !u!114 &1137303393
 MonoBehaviour:
@@ -1358,7 +1361,7 @@ Transform:
   m_GameObject: {fileID: 2079795184}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.61, y: 0, z: 0}
+  m_LocalPosition: {x: -5.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1427,7 +1430,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
