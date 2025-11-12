@@ -14,7 +14,8 @@ public class ScoreView : MonoBehaviour
 
     private void Start()
     {
-       UpdateText(); 
+       UpdateText();
+        Debug.Log(_textData);
     }
 
     public void AddScore()
