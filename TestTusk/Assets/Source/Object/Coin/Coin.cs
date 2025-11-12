@@ -13,9 +13,5 @@ public class Coin : MonoBehaviour
     _floatData = floatData;
     _transformData = transformData;
   }
-
-  private void Update()
-  {
-    
-  }
+   
 }

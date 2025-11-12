@@ -14,9 +14,9 @@ TagManager:
   - Water
   - UI
   - Coin
-  - 
-  - 
-  - 
+  - Obstacle
+  - Player
+  - DeadZone
   - 
   - 
   - 
