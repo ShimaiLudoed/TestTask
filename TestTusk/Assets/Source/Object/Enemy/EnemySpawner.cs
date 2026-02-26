@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
+using VContainer;
 using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
@@ -12,24 +11,32 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float maxSpawnDelay = 5f;
     [SerializeField] private int maxEnemiesOnScreen = 5;
     
-    private Enemy.EnemyFactory _enemyFactory;
+    private Func<LayerData, FloatData, Enemy> _enemyFactory;
     private LayerData _layerData;
     private FloatData _floatData;
     
     private Coroutine _spawnCoroutine;
     private int _currentEnemyCount;
+    private bool _isInitialized = false;
 
     [Inject]
-    public void Construct(Enemy.EnemyFactory enemyFactory, LayerData layerData, FloatData floatData)
+    public void Construct(
+        Func<LayerData, FloatData, Enemy> enemyFactory,
+        LayerData layerData,
+        FloatData floatData)
     {
         _enemyFactory = enemyFactory;
         _layerData = layerData;
         _floatData = floatData;
+        _isInitialized = true;
     }
 
     private void Start()
     {
-        StartSpawning();
+        if (_isInitialized)
+        {
+            StartSpawning();
+        }
     }
 
     public void StartSpawning()
@@ -55,12 +62,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (spawnPoint == null)
+        if (spawnPoint == null || !_isInitialized)
         {
             return;
         }
-        ;
-        Enemy enemy = _enemyFactory.Create(_layerData, _floatData);
+
+        Enemy enemy = _enemyFactory(_layerData, _floatData);
         
         if (enemy != null)
         {

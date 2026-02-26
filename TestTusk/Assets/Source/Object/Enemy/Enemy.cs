@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class Enemy : MonoBehaviour
 {
@@ -37,7 +38,5 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public class EnemyFactory : PlaceholderFactory<LayerData,FloatData,Enemy>
-    { }
+    
 }

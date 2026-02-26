@@ -1,17 +1,11 @@
 using UnityEngine;
 using System;
-using Zenject;
+using VContainer;
 public class ScoreView : MonoBehaviour
 {
     [SerializeField] private int score;
-    private TextData _textData;
+    [Inject] private TextData _textData;
     
-    [Inject]
-    public void Construct(TextData textData)
-    {
-        _textData = textData;
-    }
-
     private void Start()
     {
        UpdateText();

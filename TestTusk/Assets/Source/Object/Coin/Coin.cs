@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
+using VContainer;
 
 public class Coin : MonoBehaviour
 {
@@ -35,6 +35,4 @@ public class Coin : MonoBehaviour
     {
         _rb.linearVelocity = new Vector2(Vector2.left.x * _floatData.GameSpeed, transform.position.y);
     }
-    public class CoinFactory : PlaceholderFactory<FloatData, TransformData, LayerData, ScoreView, Coin>
-    { }
 }

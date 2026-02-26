@@ -1,20 +1,20 @@
-using System;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
-public class InputListener : MonoBehaviour
+public class InputListener : ITickable
 {
-  private PlayerController _playerController;
-
+  private readonly PlayerController _playerController;
+    
   [Inject]
-  public void Construct(PlayerController playerController)
+  public InputListener(PlayerController playerController)
   {
     _playerController = playerController;
   }
-
-  private void Update()
+    
+  public void Tick()
   {
-    if(Input.GetKeyDown(KeyCode.Space))
+    if (Input.GetKeyDown(KeyCode.Space))
     {
       _playerController.Jump();
     }

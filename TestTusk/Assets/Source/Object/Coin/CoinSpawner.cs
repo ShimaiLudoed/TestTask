@@ -1,65 +1,76 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Zenject;
+using VContainer;
 using Random = UnityEngine.Random;
 
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform spawnPoint;
-    [SerializeField] private float minSpawnDelay;
-    [SerializeField] private float maxSpawnDelay;
+  [SerializeField] private Transform spawnPoint;
+  [SerializeField] private float minSpawnDelay;
+  [SerializeField] private float maxSpawnDelay;
     
-    private Coin.CoinFactory _coinFactory;
-    private FloatData _floatData;
-    private TransformData _transformData;
-    private LayerData _layerData;
-    private ScoreView _scoreView;
+  private FloatData _floatData;
+  private LayerData _layerData;
+  private ScoreView _scoreView;
+  private Func<FloatData, LayerData, ScoreView, Coin> _coinFactory;
     
-    private Coroutine _spawnCoroutine;
+  private Coroutine _spawnCoroutine;
+  private bool _isInitialized = false;
 
-    [Inject]
-    public void Construct(Coin.CoinFactory coinFactory, FloatData floatData, TransformData transformData, LayerData layerData, ScoreView scoreView)
+  [Inject]
+  public void Construct(
+    FloatData floatData, 
+    LayerData layerData, 
+    ScoreView scoreView,
+    Func<FloatData, LayerData, ScoreView, Coin> coinFactory)
+  {
+    _floatData = floatData;
+    _layerData = layerData;
+    _scoreView = scoreView;
+    _coinFactory = coinFactory;
+    _isInitialized = true;
+  }
+
+  private void Start()
+  {
+    if (_isInitialized)
     {
-        _coinFactory = coinFactory;
-        _floatData = floatData;
-        _transformData = transformData;
-        _layerData = layerData;
-        _scoreView = scoreView;
+      StartSpawning();
     }
-
-    private void Start()
-    {
-        StartSpawning();
-    }
-
-    public void StartSpawning()
-    {
-        if (_spawnCoroutine != null)
-            StopCoroutine(_spawnCoroutine);
+  }
+    
+  public void StartSpawning()
+  {
+    if (_spawnCoroutine != null)
+      StopCoroutine(_spawnCoroutine);
             
-        _spawnCoroutine = StartCoroutine(SpawnRoutine());
+    _spawnCoroutine = StartCoroutine(SpawnRoutine());
+  }
+    
+  private IEnumerator SpawnRoutine()
+  {
+    while (true)
+    {
+      yield return new WaitForSeconds(Random.Range(minSpawnDelay, maxSpawnDelay));
+      SpawnCoin();
+    }
+  }
+
+  private void SpawnCoin()
+  {
+    if (spawnPoint == null || !_isInitialized)
+    {
+      return;
     }
 
-    private IEnumerator SpawnRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(Random.Range(minSpawnDelay, maxSpawnDelay));
-            SpawnCoin();
-        }
-    }
-
-    private void SpawnCoin()
-    {
-        Coin coin = _coinFactory.Create(_floatData, _transformData, _layerData, _scoreView);
+    Coin coin = _coinFactory(_floatData, _layerData, _scoreView);
         
-        if (coin != null)
-        {
-            coin.transform.position = spawnPoint.position;
-            coin.transform.rotation = spawnPoint.rotation;
-            
-            coin.transform.SetParent(transform);
-        }
+    if (coin != null)
+    {
+      coin.transform.position = spawnPoint.position;
+      coin.transform.rotation = spawnPoint.rotation;
+      coin.transform.SetParent(transform);
     }
+  }
 }
