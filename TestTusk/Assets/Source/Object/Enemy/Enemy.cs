@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class Enemy : MonoBehaviour
@@ -7,8 +8,6 @@ public class Enemy : MonoBehaviour
     private LayerData _layerData;
     private FloatData _floatData;
     private Rigidbody2D _rb;
-    public float verticalSpeed = 2f; // Скорость движения вверх-вниз
-    public float height = 2f; // Высота движения
 
     [Inject]
     public void Construct(LayerData layerData, FloatData floatData)
@@ -22,8 +21,21 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
-        float moveUpDown = Mathf.Sin(Time.time * verticalSpeed) * height;
+        float moveUpDown = Mathf.Sin(Time.time * _floatData.VerticalSpeed) * _floatData.Height;
         _rb.linearVelocity = new Vector2(Vector2.left.x * _floatData.GameSpeed, moveUpDown);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (LayerMaskCheck.ContainsLayer(_layerData.PlayerLayer, other.gameObject.layer))
+        {
+            SceneManager.LoadScene("Main");
+        }
+
+        if (LayerMaskCheck.ContainsLayer(_layerData.WallLayer, other.gameObject.layer))
+        {
+            Destroy(gameObject);
+        }
     }
 
     public class EnemyFactory : PlaceholderFactory<LayerData,FloatData,Enemy>

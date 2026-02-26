@@ -11,10 +11,10 @@ public class Installer : MonoInstaller
     [SerializeField] private TransformData transformData;
     [SerializeField] private LayerData layerData;
     [SerializeField] private PlayerView playerView;
-    //[SerializeField] private EnemyView enemyView;
-    //[SerializeField] private CoinView coinView;
-    //[SerializeField] private ScoreView scoreView;
+    [SerializeField] private ScoreView scoreView;
     //[SerializeField] private EntitySpawner spawner;
+    [SerializeField] private Enemy enemy;
+    [SerializeField] private Coin coin;
     public override void InstallBindings()
     {
         Container.Bind<ISound>().To<Sound>().AsSingle().NonLazy();
@@ -29,8 +29,10 @@ public class Installer : MonoInstaller
         Container.Bind<PlayerView>().FromInstance(playerView).AsSingle().NonLazy();
         Container.Bind<PlayerController>().AsSingle().NonLazy();
 
-        //Container.Bind<EnemyView>().FromInstance(enemyView).AsSingle().NonLazy();
+        Container.BindFactory<LayerData, FloatData, Enemy, Enemy.EnemyFactory>().FromComponentInNewPrefab(enemy);
+        Container.BindFactory<FloatData, TransformData, LayerData, ScoreView, Coin, Coin.CoinFactory>().FromComponentInNewPrefab(coin);
+        
         //Container.Bind<CoinView>().FromInstance(coinView).AsSingle().NonLazy();
-        //Container.Bind<ScoreView>().FromInstance(scoreView).AsSingle().NonLazy();
+        Container.Bind<ScoreView>().FromInstance(scoreView).AsSingle().NonLazy();
     }
 }

@@ -7,7 +7,7 @@ using Zenject;
 public class Coin : MonoBehaviour
 {
   private FloatData _floatData;
-  private TransformData _transformData;
+
   private LayerData _layerData;
   private ScoreView _scoreView;
     private Rigidbody2D _rb;
@@ -16,7 +16,6 @@ public class Coin : MonoBehaviour
   public void Construct(FloatData floatData, TransformData transformData, LayerData layerData, ScoreView scoreView)
   {
     _floatData = floatData;
-    _transformData = transformData;
         _layerData = layerData;
         _scoreView = scoreView;
   }
